@@ -1,0 +1,16 @@
+{
+  "name": "quizgenerator",
+  "version": "1.0.0",
+  "description": "Generate a quiz based on prewritten questions and answers using the ChatGPT API to create similar sounding fake answers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Kai Chevannes",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
