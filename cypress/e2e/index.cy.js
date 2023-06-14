@@ -3,7 +3,12 @@ describe('Test index.html', () => {
         cy.visit('/')
     })
 
-    it('sidebar contains expected elements', () => {
+    it('contains sidenav', () => {
+        cy.get('[data-test=sidenav]')
+          .should('exist')
+    })
+
+    it('sidenav contains expected elements', () => {
         cy.get('[data-test=logo-anchor]')
           .contains('ChatGPT Quiz')
           .find('img')
@@ -22,38 +27,48 @@ describe('Test index.html', () => {
           .contains('Export')
     })
 
-    it('check sidebar logo navigates to correct page', () => {
-        cy.get('[data-test=logo-anchor]')
+    it('check sidenav logo navigates to correct page', () => {
+        cy.get('[data-test=sidenav]')
+          .find('[data-test=logo-anchor]')
           .click()
           .location('pathname')
           .should('eq','/index.html')
     })
 
-    it('check sidebar load navigates to correct page', () => {
-        cy.get('[data-test=load]')
+    it('check sidenav load navigates to correct page', () => {
+        cy.get('[data-test=sidenav]')
+          .find('[data-test=load]')
           .click()
           .location('pathname')
           .should('eq','/load.html')
     })
 
-    it('check sidebar edit navigates to correct page', () => {
-        cy.get('[data-test=edit]')
+    it('check sidenav edit navigates to correct page', () => {
+        cy.get('[data-test=sidenav]')
+          .find('[data-test=edit]')
           .click()
           .location('pathname')
           .should('eq','/edit.html')
     })
 
-    it('check sidebar test navigates to correct page', () => {
-        cy.get('[data-test=test]')
+    it('check sidenav test navigates to correct page', () => {
+        cy.get('[data-test=sidenav]')
+          .find('[data-test=test]')
           .click()
           .location('pathname')
           .should('eq','/test.html')
     })
 
-    it('check sidebar export navigates to correct page', () => {
-        cy.get('[data-test=export]')
+    it('check sidenav export navigates to correct page', () => {
+        cy.get('[data-test=sidenav]')
+          .find('[data-test=export]')
           .click()
           .location('pathname')
           .should('eq','/export.html')
+    })
+
+    it('check there is introduction text', () => {
+        cy.get('[data-test=introduction-text]')
+          .should('exist')
     })
 })

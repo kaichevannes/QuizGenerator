@@ -1,13 +1,14 @@
 :root {
     --main-color: #3B2819;
     --background-color: #E0D6CD;
+    --sub-background-color: #CFC1B1;
     --hover-color: #684227;
 }
 
 body {
     background: grey;
     color: white;
-    padding: 25px;
+    padding: 5px 25px;
     font-family: Tahoma, Verdana, Geneva, sans-serif, 'Segoe UI'
 }
 
@@ -22,12 +23,22 @@ body {
     overflow-x: hidden;
 }
 
+#topicnav {
+    padding-left: 250px;
+    background-color: var(--sub-background-color);
+    text-align: center;
+}
+
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
     color: var(--main-color);
     display: block;
+}
+
+#topicnav a {
+    padding: 8px 8px 8px 8px;
 }
 
 .sidenav a:hover {
@@ -46,4 +57,8 @@ body {
 
 .page-content {
     padding-left: 250px;
+}
+
+.edit-page-content {
+    padding-left: 500px;
 }
