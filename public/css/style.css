@@ -1,3 +1,9 @@
+:root {
+    --main-color: #3B2819;
+    --background-color: #E0D6CD;
+    --hover-color: #684227;
+}
+
 body {
     background: grey;
     color: white;
@@ -5,7 +11,39 @@ body {
     font-family: Tahoma, Verdana, Geneva, sans-serif, 'Segoe UI'
 }
 
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: var(--background-color);
+    overflow-x: hidden;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: var(--main-color);
+    display: block;
+}
+
+.sidenav a:hover {
+    color: var(--hover-color);
+}
+
+#logo-anchor {
+    padding: 8px 8px 8px 4px;
+}
+
 #logo {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
+    vertical-align: middle;
+}
+
+.page-content {
+    padding-left: 250px;
 }

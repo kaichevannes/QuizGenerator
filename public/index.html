@@ -6,12 +6,24 @@
     </head>
 
     <body>
-        <div class="sidenav">
-            <a href="#" data-test="logo"><img id="logo" src="img/kcLogo-no-background.png" alt="Cool and hip logo"></a>
-            <a href="#" data-test="load">Load</a>
-            <a href="#" data-test="edit">Edit</a>
-            <a href="#" data-test="test">Test</a>
-            <a href="#" data-test="export">Export</a>
+        <!-- Side-Navigation bar -->
+        <div id="sidenav-placeholder"></div>
+
+        <script>
+            $(() => {
+                $("#sidenav-placeholder").load("sidenav.html");
+            });
+        </script>
+        <!-- End of Side-Navigation bar -->
+
+        <div class="page-content">
+            <p data-test="introduction-text">
+                Welcome to the ChatGPT Quiz Generator. 
+                To load an existing quiz click load. 
+                To modify or create a new quiz, click edit. 
+                Once the test has been imported/created you will be able to test yourself using the test button.
+                Finally, if you would like to export a quiz that has been created or modified, click export.
+            </p>
         </div>
     </body>
 </html>
