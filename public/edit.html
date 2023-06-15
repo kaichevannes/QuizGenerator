@@ -3,13 +3,14 @@
     <head>
         <title>Edit Quiz</title>
         <link href="css/style.css" rel="stylesheet">
+        <script src="js/edit.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     </head>
 
     <body>
         <nav id="topicnav" class="sidenav" data-test="topicnav">
-            <a href="#" data-test="add-new-topic">+</a>
-        </nav>
+            <a id="add-new-topic" href="#" onclick="addNewTopic()" data-test="add-new-topic">+</a>
+        </nav>  
 
         <!-- Side-Navigation bar -->
         <div id="sidenav-placeholder"></div>

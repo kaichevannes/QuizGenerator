@@ -26,7 +26,6 @@ body {
 #topicnav {
     padding-left: 250px;
     background-color: var(--sub-background-color);
-    text-align: center;
 }
 
 .sidenav a {
@@ -37,12 +36,72 @@ body {
     display: block;
 }
 
-#topicnav a {
-    padding: 8px 8px 8px 8px;
-}
-
 .sidenav a:hover {
     color: var(--hover-color);
+}
+
+.topicdiv {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+
+.topic {
+    grid-column: 1;
+    width: 150px;
+    max-width: 150px;
+    overflow-wrap: break-word;
+}
+
+.modify-buttons {
+    position: relative;
+    grid-column: 2;
+    font-size: 0;
+}
+
+.edit-button {
+    z-index: 2;
+    left: -60px;
+}
+
+.delete-button {
+    left: -35px;
+    margin-left: 0;
+}
+
+.edit-button,
+.delete-button {
+    position: absolute;
+    top: -25px;
+}
+
+.edit-button img,
+.delete-button img {
+    vertical-align: middle;
+}
+
+.topicdiv:hover .icon {
+    opacity: 1;
+    transition: 0.3s opacity;
+}
+
+.icon {
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    vertical-align: center;
+}
+
+.page-content {
+    padding-left: 250px;
+}
+
+.edit-page-content {
+    padding-left: 500px;
+}
+
+#add-new-topic {
+    text-align: center;
 }
 
 #logo-anchor {
@@ -53,12 +112,4 @@ body {
     width: 75px;
     height: 75px;
     vertical-align: middle;
-}
-
-.page-content {
-    padding-left: 250px;
-}
-
-.edit-page-content {
-    padding-left: 500px;
 }
