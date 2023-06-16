@@ -2,12 +2,15 @@
     --main-color: #3B2819;
     --background-color: #E0D6CD;
     --sub-background-color: #CFC1B1;
+    --sub-sub-background-color: #A69B8E;
     --hover-color: #684227;
 }
 
 body {
-    background: grey;
-    color: white;
+    /* background: grey;
+    color: white; */
+    background: var(--sub-sub-background-color);
+    color: var(--main-color);
     padding: 5px 25px;
     font-family: Tahoma, Verdana, Geneva, sans-serif, 'Segoe UI'
 }
@@ -50,7 +53,16 @@ body {
     grid-column: 1;
     width: 150px;
     max-width: 150px;
+}
+
+.wrap {
     overflow-wrap: break-word;
+}
+
+.nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .modify-buttons {
@@ -59,25 +71,52 @@ body {
     font-size: 0;
 }
 
-.edit-button {
+.edit-topic-button {
     z-index: 2;
     left: -60px;
 }
 
-.delete-button {
+.delete-topic-button {
     left: -35px;
     margin-left: 0;
 }
 
-.edit-button,
-.delete-button {
+.edit-topic-button,
+.delete-topic-button {
     position: absolute;
     top: -25px;
 }
 
-.edit-button img,
-.delete-button img {
-    vertical-align: middle;
+.edit-topic-button img,
+.delete-topic-button img {
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    vertical-align: center;
+}
+
+.edit-question-button {
+    z-index: 2;
+    left: -70px;
+}
+
+.delete-question-button {
+    left: -45px;
+    margin-left: 0;
+}
+
+.edit-question-button,
+.delete-question-button {
+    position: absolute;
+    top: -40px;
+}
+
+.edit-question-button img,
+.delete-question-button img {
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    vertical-align: center;
 }
 
 .topicdiv:hover .icon {
@@ -85,11 +124,9 @@ body {
     transition: 0.3s opacity;
 }
 
-.icon {
-    opacity: 0;
-    width: 20px;
-    height: 20px;
-    vertical-align: center;
+.question-li:hover .icon {
+    opacity: 1;
+    transition: 0s opacity;
 }
 
 .page-content {
@@ -97,7 +134,25 @@ body {
 }
 
 .edit-page-content {
-    padding-left: 500px;
+    padding-left: 525px;
+    text-align: center;
+}
+
+.edit-page-content * {
+    font-size: 18px;
+    color: var(--main-color);
+    display: block;
+    text-align: left;
+}
+
+.edit-page-content li {
+    display: list-item;
+}
+
+.edit-page-content a {
+    font-size: 25px;
+    text-decoration: none;
+    border-style: 2px solid white;
 }
 
 #add-new-topic {
@@ -112,4 +167,12 @@ body {
     width: 75px;
     height: 75px;
     vertical-align: middle;
+}
+
+#add-new-question:hover {
+    color: var(--hover-color);
+}
+
+#instruction-text {
+    font-size: 16px;
 }

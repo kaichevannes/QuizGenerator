@@ -63,13 +63,6 @@ describe('Test edit.html', () => {
         // Add a new topic.
         cy.get('[data-test=add-new-topic]')
           .click()
-
-        // Edit the topic name.
-        cy.get('[data-test=topic-1]')
-          .parent()
-          .find('.edit-button')
-          .find('img')
-          .click()
           .focused()
           .clear()
           .type('Test')
@@ -82,21 +75,22 @@ describe('Test edit.html', () => {
           .should('have.text','Test')
     })  
 
-    it('edit a topic name exiting by unfocusing', () => {
+    it('edit a topic name exiting by clicking the confirm button', () => {
         // Add a new topic.
         cy.get('[data-test=add-new-topic]')
-          .click()
-
-        // Edit the topic name.
-        cy.get('[data-test=topic-1]')
-          .parent()
-          .find('.edit-button')
-          .find('img')
           .click()
           .focused()
           .clear()
           .type('Test')
-          .blur()
+
+        // Click the (now) confirm button.
+        cy.get('[data-test=topic-1]')
+          .parent()
+          .find('.edit-topic-button')
+          .find('img')
+          .click()
+          
+        cy.get('[data-test=topic-1]')
           .invoke('attr','contentEditable')
           .should('contain','false')
 
@@ -115,7 +109,7 @@ describe('Test edit.html', () => {
         cy.get('[data-test=topic-1]')
           .parent()
           .parent()
-          .find('.delete-button')
+          .find('.delete-topic-button')
           .find('img')
           .click()
 
@@ -123,10 +117,281 @@ describe('Test edit.html', () => {
           
         // Check that the topic has been deleted.
         cy.get('[data-test=topic-1]')
-          .should('not.exist');
+          .should('not.exist')
     })
 
-    it('clicking on a topic shows topic questions', () => {
+    it('clicking on a topic gives the option to add questions', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Check that there is a button to add questions.
+        cy.get('[data-test=add-new-question]')
+          .should('exist')
+    })
+
+    it('add a new question with modify buttons', () => {
+         // Add a new topic.
+         cy.get('[data-test=topicnav]')
+         .find('[data-test=add-new-topic]')
+         .click()
+
+       // Open the topic.
+       cy.get('[data-test=topic-1]')
+         .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+
+        // Check that the new question got added.
+        cy.get('[data-test=question-1]')
+          .should('exist')
+
+        // Check that a corresponding answer got added.
+        cy.get('[data-test=answer-1]')
+          .should('exist')
+
+        // Check that the modify buttons got added.
+        cy.get('[data-test=question-1]')
+          .parent()
+          .find('img')
+          .should('have.length','2');
+    })
+
+    it('add multiple questions', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+        .find('[data-test=add-new-topic]')
+        .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+ 
+        // Check that the new question got added.
+        cy.get('[data-test=question-1]')
+          .should('exist')
+ 
+        // Check that a corresponding answer got added.
+        cy.get('[data-test=answer-1]')
+         .should('exist')
+
+        // Add a second question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+
+        // Check that the second question got added.
+        cy.get('[data-test=question-2]')
+          .should('exist')
+
+        // Check that a corresponding answer got added.
+        cy.get('[data-test=answer-2]')
+          .should('exist')
+
+        // Add a third question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+
+        // Check that the second question got added.
+        cy.get('[data-test=question-3]')
+          .should('exist')
+
+        // Check that a corresponding answer got added.
+        cy.get('[data-test=answer-3]')
+          .should('exist')
+    })
+
+    it('edit a question and its answer', () => {
+        const questionText = 'What is the answer to the test question?'
+        const answerText= 'Success!'
+
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type(questionText)
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type(answerText)
+          .type('{enter}')
+
+        // Check that the question was successfully updated.
+        cy.get('[data-test=question-1]')
+          .should('have.text',questionText)
         
+        // Check that the answer was successfully updated.
+        cy.get('[data-test=answer-1]')
+          .should('have.text',answerText)
+    }) 
+
+    it('delete a question', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+
+        // Click the question delete button.
+        cy.get('[data-test=question-1]')
+          .parent()
+          .find('.delete-question-button')
+          .click()
+          
+        cy.on('window:confirm', () => true)
+
+        // Check that the question and answer was deleted.
+        cy.get('[data-test=question-1]')
+          .should('not.exist')
+
+        cy.get('[data-test=answer-1]')
+          .should('not.exist')
+    })
+
+    it('JSON stored after adding a question', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+
+        // Check that there is a parsable JSON object stored in the topic attributes.
+        cy.get('[data-test=topic-1]')
+          .invoke('attr','data-questions')
+          .should('eq','{"questions":["Question 1?"],"answers":["Answer 1."]}')
+    })
+
+    it('JSON stored after editing a question', () => {
+        const questionText = 'TestQ?'
+        const answerText = 'TextA!'
+
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add a new question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused() // Edit the question.
+          .clear()
+          .type(questionText)
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type(answerText)
+        
+        // Click the question edit (now check) button.
+        cy.get('[data-test=question-1]')
+          .parent()
+          .find('.edit-question-button')
+          .click()
+        
+        // Check that the JSON has saved correctly.
+        cy.get('[data-test=topic-1]')
+          .invoke('attr','data-questions')
+          .should('eq',`{"questions":["${questionText}"],"answers":["${answerText}"]}`)
+    })
+
+    it('Correct JSON stored after editting multiple questions', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        // Add the first question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q1')
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type('A1')
+          .type('{enter}')
+
+        // Add the second question
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q2')
+
+        cy.get('[data-test=answer-2]')
+          .clear()
+          .type('A2')
+          .type('{enter}')
+
+        // Add the third question
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q3')
+
+        cy.get('[data-test=answer-3]')
+          .clear()
+          .type('A3')
+          .type('{enter}')
+        
+        // Add the fourth question
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q4')
+
+        cy.get('[data-test=answer-4]')
+          .clear()
+          .type('A4')
+          .type('{enter}')
+
+        // Check that the JSON has saved correctly.
+        cy.get('[data-test=topic-1]')
+          .invoke('attr','data-questions')
+          .should('eq','{"questions":["Q1","Q2","Q3","Q4"],"answers":["A1","A2","A3","A4"]}')
     })
 })
