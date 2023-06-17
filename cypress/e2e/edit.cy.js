@@ -394,4 +394,172 @@ describe('Test edit.html', () => {
           .invoke('attr','data-questions')
           .should('eq','{"questions":["Q1","Q2","Q3","Q4"],"answers":["A1","A2","A3","A4"]}')
     })
+
+    it('correct JSON stored after deleting question', () => {
+        // Add a new topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        /// Add the first question.
+        cy.get('[data-test=add-new-question]')
+        .click()
+        .focused()
+        .clear()
+        .type('Q1')
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type('A1')
+          .type('{enter}')
+
+        // Add the second question
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q2')
+
+        cy.get('[data-test=answer-2]')
+          .clear()
+          .type('A2')
+          .type('{enter}')
+
+        // Delete the first question
+        cy.get('[data-test=question-1]')
+          .parent()
+          .find('.delete-question-button')
+          .click()
+
+        // Check that the JSON has saved correctly.
+        cy.get('[data-test=topic-1]')
+          .invoke('attr','data-questions')
+          .should('eq','{"questions":["Q2"],"answers":["A2"]}')
+    })
+
+    it('saves JSON to session storage when switching pages', () => {
+        // Add the first topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+          .focused()
+          .type('sessionTopic1')
+          .type('{enter}')
+
+        // Open the topic.
+        cy.get('[data-test=topic-1]')
+          .click()
+
+        /// Add the first question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q1')
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type('A1')
+          .type('{enter}')
+
+        // Add the second question
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q2')
+
+        cy.get('[data-test=answer-2]')
+          .clear()
+          .type('A2')
+          .type('{enter}')
+
+        // Add the second topic.
+        cy.get('[data-test=topicnav]')
+          .find('[data-test=add-new-topic]')
+          .click()
+          .focused()
+          .type('sessionTopic2')
+          .type('{enter}')
+
+        // Open the topic.
+        cy.get('[data-test=topic-2]')
+          .click()
+
+        /// Add the first question.
+        cy.get('[data-test=add-new-question]')
+          .click()
+          .focused()
+          .clear()
+          .type('Q3')
+
+        cy.get('[data-test=answer-1]')
+          .clear()
+          .type('A3')
+          .type('{enter}')
+
+        // Click the logo to go back to the index.
+        cy.get('[data-test=load]')
+          .click()
+
+        // Check that the first topic's data was stored in the sessionState
+        cy.window()
+          .its('sessionStorage')
+          .invoke('getItem','sessionTopic1')
+          .should('contain','{"questions":["Q1","Q2"],"answers":["A1","A2"]}')
+        
+        // Check that the second topic's data was stored in the sessionState
+        cy.window()
+          .its('sessionStorage')
+          .invoke('getItem','sessionTopic2')
+          .should('contain','{"questions":["Q3"],"answers":["A3"]}')
+    })
+
+    it('topics from session state are loaded', () => {
+      // Set the session state.
+      cy.window()
+        .setSessionTopics()
+
+      cy.visit('/edit.html')
+
+      cy.get('[data-test=topicnav]')
+        .find('.topicdiv')
+        .should('have.length',2)
+    })
+
+    it('topics from session state display correct questions', () => {
+      // Set the session state.
+      cy.window()
+        .setSessionTopics()
+
+      cy.visit('/edit.html')
+
+      cy.get('[data-test=topic-1]')
+        .click()
+
+      cy.get('[data-test=question-1]')
+        .should('have.text','Q1')
+
+      cy.get('[data-test=answer-1]')
+        .should('have.text','A1')
+
+      cy.get('[data-test=question-2]')
+        .should('have.text','Q2')
+
+      cy.get('[data-test=answer-2]')
+        .should('have.text','A2')
+
+      cy.get('[data-test=topic-2]')
+        .click()
+
+      cy.get('[data-test=question-1]')
+        .should('have.text','Q3')
+
+      cy.get('[data-test=answer-1]')
+        .should('have.text','A3')
+    })
 })

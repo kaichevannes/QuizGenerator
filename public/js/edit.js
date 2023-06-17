@@ -44,8 +44,6 @@ const addNewTopic = () => {
         if (currentID > maxID) {
             maxID = currentID;
         }
-        console.log('currentID = ' + currentID);
-        console.log('maxID = ' + maxID);
     }
     maxID++;
 
@@ -169,24 +167,43 @@ const showTopicQuestions = (topicAnchor) => {
     const newQuestionText = document.createTextNode('+');
     newQuestionAnchor.appendChild(newQuestionText);
 
-    // Add the question list to the div (Add existing questions here).
+    // Add the question list to the div.
     const questionList = document.createElement('ol');
     questionList.setAttribute('id',`questions-${topicAnchor.id}`);
     questionList.setAttribute('class','question-list');
     questionList.setAttribute('data-test','question-list');
 
-    pageContentDiv.append(questionList, newQuestionAnchor);
+    pageContentDiv.append(questionList);
+
+    // Add the existing questions
+    var existingQuestions = JSON.parse(topicAnchor.dataset.questions);
+
+    for (var i = 0; i < existingQuestions.questions.length; i++) {
+        // Add a new question to the list.
+        addNewQuestion();
+
+        // Get the current question li element.
+        questionLi = questionList.getElementsByTagName('li')[i];
+
+        // Set the question value.
+        questionLi.querySelector('.question').innerHTML = existingQuestions["questions"][i];
+
+        // Set the answer value.
+        questionLi.querySelector('.answer').innerHTML = existingQuestions["answers"][i];
+
+        // Unselect the question.
+        unselectQuestion(questionLi.querySelector('.edit-question-button'));
+    }
+
+    pageContentDiv.append(newQuestionAnchor);
 }
 
 const addNewQuestion = () => {
     // Get the page content and add-new-question elements.
     const questionList = document.getElementsByClassName('question-list')[0];
-    console.log(questionList);
 
     // Find the number of the new question.
-    // Not great...
     const newQuestionNum = questionList.getElementsByTagName('li').length + 1;
-    console.log(newQuestionNum);
 
     // Create the new div.
     const questionLi = document.createElement('li');
@@ -353,9 +370,11 @@ const unselectQuestion = (editAnchor) => {
  */
 const deleteQuestion = (deleteAnchor) => {
     const questionLi = deleteAnchor.parentElement.parentElement;
+    const questionList = questionLi.parentElement;
     const question = questionLi.querySelector('.question');
     if (confirm(`Do you really want to delete this question?\nPress OK to delete: "${question.textContent}"`)) {
         questionLi.remove();
+        saveQuestionsToJSON(questionList);
     }
 }
 
@@ -387,3 +406,40 @@ const saveQuestionsToJSON = (questionList) => {
 
     topicDiv.setAttribute('data-questions',JSON.stringify(topicData));
 }
+
+/**
+ * Save the data from the edit form to the session for use on other pages.
+ */
+const saveSessionData = () => {
+    sessionStorage.clear();
+    const topics = document.getElementsByClassName('topic');
+    for (var i = 0; i < topics.length; i++) {
+        var topic = topics[i];
+        sessionStorage.setItem(topic.textContent,topic.dataset.questions);
+    }
+}
+
+/**
+ * Load the topics from the session state.
+ */
+const loadTopics = () => {
+    const topicnav = document.getElementById('topicnav');
+    const sessionKeys = Object.keys(sessionStorage);
+    
+    for (var i = 0; i < sessionKeys.length; i++) {
+        addNewTopic()
+
+        var topicanchors = topicnav.getElementsByClassName('topic');
+        var topicanchor = topicanchors[i]
+        topicanchor.innerHTML = sessionKeys[i];
+        topicanchor.setAttribute('data-questions',sessionStorage.getItem(sessionKeys[i]));
+
+        // Unselect the topic.
+        unselectTopic(topicanchor.parentElement.querySelector('.edit-topic-button'));
+
+        // Blur topic.
+        topicanchor.blur();
+    }
+}
+
+window.addEventListener('load', loadTopics)
