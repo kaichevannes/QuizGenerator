@@ -12,7 +12,8 @@ body {
     background: var(--sub-sub-background-color);
     color: var(--main-color);
     padding: 5px 25px;
-    font-family: Tahoma, Verdana, Geneva, sans-serif, 'Segoe UI'
+    font-family: Tahoma, Verdana, Geneva, sans-serif, 'Segoe UI';
+    overflow: hidden;
 }
 
 .sidenav {
@@ -133,9 +134,34 @@ body {
     padding-left: 250px;
 }
 
+.test-page-content {
+    position: relative;
+    padding-left: 500px;
+    text-align: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#question-nav-div * {
+    display: inline-block;
+    padding: 5px;
+    letter-spacing: -6px;
+}
+
 .edit-page-content {
     padding-left: 525px;
     text-align: center;
+}
+
+.test-page-content * {
+    font-size: 30px;
+    color: var(--main-color);
+    display: block;
+    text-align: left;
+}
+
+.test-page-content label {
+    color: var(--hover-color);
 }
 
 .edit-page-content * {
@@ -143,6 +169,10 @@ body {
     color: var(--main-color);
     display: block;
     text-align: left;
+}
+
+.test-page-content progress {
+    width: 100%;
 }
 
 .edit-page-content li {
@@ -175,4 +205,37 @@ body {
 
 #instruction-text {
     font-size: 16px;
+}
+
+input[type=radio],
+input.radio {
+    float: left;
+    clear: none;
+    margin: 5px 0 0 2xp;
+    scale: 1.2;
+    accent-color: var(--main-color);
+}
+
+progress {
+    accent-color: var(--main-color);
+}
+
+label {
+    float: left;
+    clear: none;
+    display: block;
+    padding: 0px 1px 0px 8px;
+}
+
+fieldset {
+    border: 0;
+    overflow: hidden;
+}
+
+fieldset.display {
+    border: 1px solid var(--main-color);
+}
+
+#test-question {
+     margin: 10px;
 }

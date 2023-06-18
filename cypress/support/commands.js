@@ -25,6 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('setSessionTopics', (win) => {
     sessionStorage.clear();
-    sessionStorage.setItem('T1','{"questions":["Q1","Q2"],"answers":["A1","A2"]}');
+    sessionStorage.setItem('T1','{"questions":["Q1","Q2","Q3"],"answers":["A1","A2","A3"]}');
     sessionStorage.setItem('T2','{"questions":["Q3"],"answers":["A3"]}');
 })

@@ -22,7 +22,6 @@
  *  </topicnav>
  */
 const addNewTopic = () => {
-
     // Get the topicnav and add-new-topic elements.
     const topicnav = document.getElementById('topicnav');
     const addNewTopic = document.getElementById('add-new-topic');
